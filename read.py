@@ -46,6 +46,11 @@ def split_data(data, train_size=0.7, test_size=0.15, val_size=0.15):
         raise ValueError("train_size, test_size, and val_size must sum to 1.")
 
     data = pd.read_csv(data)
+    # Some basic preprocess
+    data = data.dropna()
+    data['Order Date'] = pd.to_datetime(data['Order Date'])
+    data['Release Date'] = pd.to_datetime(data['Release Date'])
+    data['Days Since Release'] = (data['Order Date'] - data['Release Date']).dt.days
 
     # First split: Train and remaining (test + validation)
     train_data, remaining_data = train_test_split(data, train_size=train_size, random_state=42)
