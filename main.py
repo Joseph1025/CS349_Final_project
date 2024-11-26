@@ -11,8 +11,9 @@ def main():
 
     print("Data split into training, testing, and validation sets.")
     print("They are saved in the data folder.")
-    regression = MultipleLinearRegression()
-    # regression.fit(train_data['Sales'], train_data['Price'])
+
+    # Perform regression on the data
+    scikit_regression(train_data, test_data, valid_data)
 
 
 if __name__ == "__main__":
