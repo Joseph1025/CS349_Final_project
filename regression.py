@@ -7,9 +7,9 @@ Since there are multiple features, we will use multiple linear regression.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from requests.packages import target
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
-from spacy.cli.train import train
 
 
 class MultipleLinearRegression:
@@ -59,7 +59,7 @@ def scikit_regression(train_data, test_data, valid_data):
 
 
     # Train the model
-    model = Ridge(alpha=1.0)
+    model = Ridge(alpha=0.7)
     model.fit(Feature_train, target_train)
 
     # Make predictions
@@ -89,6 +89,26 @@ def scikit_regression(train_data, test_data, valid_data):
     plt.title('Mean Absolute Error (MAE) Across Train, Validation, and Test Sets')
     plt.xlabel('Dataset')
     plt.ylabel('MAE')
+    plt.show()
+
+
+    # Plot predictions vs actual values
+    # Since the dataset is large, we do a random sampling to show the plots
+    # Number of points to sample for the plot
+    sample_size = 500
+
+    # Random sampling
+    indices = np.random.choice(len(target_train), sample_size, replace=False)
+    y_test_sample = target_train.iloc[indices]
+    y_pred_sample = train_pred[indices]
+
+    plt.figure(figsize=(8, 6))
+    plt.scatter(y_test_sample, y_pred_sample, alpha=0.7, color='blue', label='Predictions')
+    plt.plot([target_train.min(), target_train.max()], [target_train.min(), target_train.max()], 'r--', label='Ideal Fit')  # Diagonal line
+    plt.xlabel("Actual Sale Price")
+    plt.ylabel("Predicted Sale Price")
+    plt.title(f"Actual vs. Predicted Sale Price (Sampled {sample_size} Points)")
+    plt.legend()
     plt.show()
 
 
